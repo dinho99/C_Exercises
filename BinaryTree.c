@@ -189,6 +189,21 @@ int conta_valore(albero T, int v){
     return count + conta_valore(T->dx, v) + conta_valore(T->sx, v);
 }
 
+/*Funzione che conta quanti nodi hanno campo info pari alla distanza dalla radice*/
+int distanza_dalla_radice(nodo* n, int d){
+    if(n == NULL) return 0;
+    int count = 0;
+    if(n->info == d)
+        count ++;
+    count += distanza_dalla_radice(n->dx, d+1) + distanza_dalla_radice(n->sx, d+1);
+    return count;
+}
+
+int info_pari_distanza(albero T){
+    if(T == NULL) return 0;
+    return distanza_dalla_radice(T, 0);
+}
+
 /*=======================================*/
 /*MAIN*/
 
@@ -271,5 +286,14 @@ int main()
     printf("Risultato atteso: 1, Risultato funzione: %d\n", conta_valore(n3, 1));
     printf("Risultato atteso: 1, Risultato funzione: %d\n", conta_valore(n4, 1));
     printf("Risultato atteso: 3, Risultato funzione: %d\n", conta_valore(n5, 1));
+    printf("\n");
+    
+    //TEST CONTA QUANTI INFO PARI A DISTANZA DALLA RADICE
+    printf("INFO_PARI_DISTANZA\n");
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", info_pari_distanza(n1));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", info_pari_distanza(n2));
+    printf("Risultato atteso: 2, Risultato funzione: %d\n", info_pari_distanza(n3));
+    printf("Risultato atteso: 2, Risultato funzione: %d\n", info_pari_distanza(n4));
+    printf("Risultato atteso: 3, Risultato funzione: %d\n", info_pari_distanza(n5));
     printf("\n");
 }
