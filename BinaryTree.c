@@ -136,6 +136,16 @@ int conta_info_zero(albero T){
     return count + conta_info_zero(T->dx) + conta_info_zero(T->sx);
 }
 
+/*Funzione che conta quante foglie hanno campo info pari a 0*/
+int conta_foglie_info_zero(albero T){
+    if(T==NULL) return 0;
+    int count = 0;
+    if(T->dx == NULL && T->sx == NULL && T->info == 0)
+        count ++;
+    return count + conta_foglie_info_zero(T->dx) + conta_foglie_info_zero(T->sx);
+}
+
+
 /*=======================================*/
 /*MAIN*/
 
@@ -182,5 +192,14 @@ int main()
     printf("Risultato atteso: 1, Risultato funzione: %d\n", conta_info_zero(n3));
     printf("Risultato atteso: 2, Risultato funzione: %d\n", conta_info_zero(n4));
     printf("Risultato atteso: 3, Risultato funzione: %d\n", conta_info_zero(n5));
+    printf("\n");
+    
+    //TEST CONTA FOGLIE INFO PARI A ZERO
+    printf("CONTA_FOGLIE_INFO_ZERO\n");
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", conta_foglie_info_zero(n1));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", conta_foglie_info_zero(n2));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", conta_foglie_info_zero(n3));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", conta_foglie_info_zero(n4));
+    printf("Risultato atteso: 2, Risultato funzione: %d\n", conta_foglie_info_zero(n5));
     printf("\n");
 }
