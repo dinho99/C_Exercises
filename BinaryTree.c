@@ -145,6 +145,31 @@ int conta_foglie_info_zero(albero T){
     return count + conta_foglie_info_zero(T->dx) + conta_foglie_info_zero(T->sx);
 }
 
+/*Funzione che verifica altezza dell'albero sia pari al numero di foglie*/
+int altezza(nodo* n){
+    if(n == NULL) return -1;
+    
+    int r = altezza(n->dx);
+    int l = altezza(n->sx);
+    
+    if(r>l) return r+1;
+    return l+1;
+}
+
+int numero_foglie(nodo* n){
+    if(n == NULL) return 0;
+    int count = 0;
+    if(n->dx == NULL && n->sx == NULL)
+        count ++;
+    return count + numero_foglie(n->dx) + numero_foglie(n->sx);
+}
+
+int altezza_come_foglie(albero T){
+    if(T == NULL) return 0;
+    if(altezza(T) == numero_foglie(T))
+        return 1;
+    else return 0;
+}
 
 /*=======================================*/
 /*MAIN*/
@@ -201,5 +226,14 @@ int main()
     printf("Risultato atteso: 0, Risultato funzione: %d\n", conta_foglie_info_zero(n3));
     printf("Risultato atteso: 1, Risultato funzione: %d\n", conta_foglie_info_zero(n4));
     printf("Risultato atteso: 2, Risultato funzione: %d\n", conta_foglie_info_zero(n5));
+    printf("\n");
+    
+    //TEST NUMERO FOGLIE PARI ALL'ALTEZZA
+    printf("ALTEZZA_COME_FOGLIE\n");
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", altezza_come_foglie(n1));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", altezza_come_foglie(n2));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", altezza_come_foglie(n3));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", altezza_come_foglie(n4));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", altezza_come_foglie(n5));
     printf("\n");
 }
