@@ -112,9 +112,7 @@ int nodi_foglie_per_due(albero T){
 
 /*Funzione che restituisce 1 se esiste una foglia destra nell'albero*/
 int foglia_destra(albero T){
-    if(T==NULL) return 0;
-    if(T!=NULL && T->dx==NULL && T->sx == NULL)
-        return 0;
+    if(T==NULL || T->dx==NULL) return 0;
     if(T->dx->dx == NULL && T->dx->sx == NULL)
         return 1;
     return foglia_destra(T->sx) || foglia_destra(T->dx);
@@ -133,13 +131,13 @@ int main()
     nodo* n5 = costruzione_albero_complesso();
     
     //TEST NODI = FOGLIE x2
-    //printf("NODI_FOGLIE_PER_DUE\n");
-    //printf("Risultato atteso: 1, Risultato funzione: %d\n", nodi_foglie_per_due(n1));
-    //printf("Risultato atteso: 0, Risultato funzione: %d\n", nodi_foglie_per_due(n2));
-    //printf("Risultato atteso: 1, Risultato funzione: %d\n", nodi_foglie_per_due(n3));
-    //printf("Risultato atteso: 0, Risultato funzione: %d\n", nodi_foglie_per_due(n4));
-    //printf("Risultato atteso: 1, Risultato funzione: %d\n", nodi_foglie_per_due(n5));
-    //printf("\n");
+    printf("NODI_FOGLIE_PER_DUE\n");
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", nodi_foglie_per_due(n1));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", nodi_foglie_per_due(n2));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", nodi_foglie_per_due(n3));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", nodi_foglie_per_due(n4));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", nodi_foglie_per_due(n5));
+    printf("\n");
 
     //TEST ESISTE FOGLIA DESTRA
     printf("FOGLIA_DESTRA\n");
