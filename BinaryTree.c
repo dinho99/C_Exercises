@@ -171,6 +171,24 @@ int altezza_come_foglie(albero T){
     else return 0;
 }
 
+/*Funzione che verifica se esiste un valore all'interno dell'albero*/
+int cerca_valore(albero T, int v){
+    if(T == NULL) return 0;
+    int verificato = 0;
+    if(T->info == v)
+        verificato = 1;
+    return verificato || cerca_valore(T->dx, v) || cerca_valore(T->sx, v);
+}
+
+/*Funzione che conta quanti nodi hanno info pari a un valore passato per parametro*/
+int conta_valore(albero T, int v){
+    if(T == NULL) return 0;
+    int count = 0;
+    if(T->info == v)
+        count ++;
+    return count + conta_valore(T->dx, v) + conta_valore(T->sx, v);
+}
+
 /*=======================================*/
 /*MAIN*/
 
@@ -235,5 +253,23 @@ int main()
     printf("Risultato atteso: 1, Risultato funzione: %d\n", altezza_come_foglie(n3));
     printf("Risultato atteso: 0, Risultato funzione: %d\n", altezza_come_foglie(n4));
     printf("Risultato atteso: 1, Risultato funzione: %d\n", altezza_come_foglie(n5));
+    printf("\n");
+    
+    //TEST CERCA VALORE
+    printf("CERCA_VALORE\n");
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", cerca_valore(n1, 1));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", cerca_valore(n2, 1));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", cerca_valore(n3, 1));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", cerca_valore(n4, 1));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", cerca_valore(n5, 1));
+    printf("\n");
+    
+    //TEST CONTA VALORE
+    printf("CONTA_VALORE\n");
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", conta_valore(n1, 1));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", conta_valore(n2, 1));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", conta_valore(n3, 1));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", conta_valore(n4, 1));
+    printf("Risultato atteso: 3, Risultato funzione: %d\n", conta_valore(n5, 1));
     printf("\n");
 }
