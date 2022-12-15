@@ -51,7 +51,7 @@ nodo* costruzione_albero_figli_foglie(){
     sinistro->info = 1;
     destro->sx = NULL;
     destro->dx = NULL;
-    destro->info = 1;
+    destro->info = 0;
     return radice;
 }
 
@@ -79,7 +79,7 @@ nodo* costruzione_albero_complesso(){
     sinistrodestro->info = 1;
     sinistrodestrodestro->sx = NULL;
     sinistrodestrodestro->dx = NULL;
-    sinistrodestrodestro->info = 1;
+    sinistrodestrodestro->info = 0;
     return radice;
 }
 
@@ -118,6 +118,24 @@ int foglia_destra(albero T){
     return foglia_destra(T->sx) || foglia_destra(T->dx);
 }
 
+
+/*Funzione che restituisce 1 se esiste un nodo con due figli foglie*/
+int due_figli_foglie(albero T){
+    if(T==NULL || T->dx == NULL || T->sx == NULL) return 0;
+    if(T->dx->dx == NULL && T->dx->sx == NULL && T->sx->dx == NULL && T->sx->sx == NULL)
+        return 1;
+    return due_figli_foglie(T->dx) || due_figli_foglie(T->sx);
+}
+
+/*Funzione che conta quanti nodi hanno campo info pari a 0*/
+int conta_info_zero(albero T){
+    if(T==NULL) return 0;
+    int count = 0;
+    if(T->info == 0)
+        count ++;
+    return count + conta_info_zero(T->dx) + conta_info_zero(T->sx);
+}
+
 /*=======================================*/
 /*MAIN*/
 
@@ -146,5 +164,23 @@ int main()
     printf("Risultato atteso: 0, Risultato funzione: %d\n", foglia_destra(n3));
     printf("Risultato atteso: 1, Risultato funzione: %d\n", foglia_destra(n4));
     printf("Risultato atteso: 1, Risultato funzione: %d\n", foglia_destra(n5));
+    printf("\n");
+    
+    //TEST ESISTE DUE FIGLI FOGLIA
+    printf("DUE_FIGLI_FOGLIE\n");
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", due_figli_foglie(n1));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", due_figli_foglie(n2));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", due_figli_foglie(n3));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", due_figli_foglie(n4));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", due_figli_foglie(n5));
+    printf("\n");
+    
+    //TEST CONTA INFO PARI A ZERO
+    printf("CONTA_INFO_ZERO\n");
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", conta_info_zero(n1));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", conta_info_zero(n2));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", conta_info_zero(n3));
+    printf("Risultato atteso: 2, Risultato funzione: %d\n", conta_info_zero(n4));
+    printf("Risultato atteso: 3, Risultato funzione: %d\n", conta_info_zero(n5));
     printf("\n");
 }
