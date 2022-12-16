@@ -21,8 +21,8 @@ void costruzione_albero_null() {}
 
 nodo* costruzione_albero_radice(){
     nodo* radice = (nodo*) malloc(sizeof(nodo));
-    radice->dx == NULL;
-    radice->sx == NULL;
+    radice->dx = NULL;
+    radice->sx = NULL;
     radice->info = 0;
     return radice;
 }
