@@ -204,6 +204,31 @@ int info_pari_distanza(albero T){
     return distanza_dalla_radice(T, 0);
 }
 
+/*Funzione che conta quanti nodi hanno campo info pari all'altezza dell'albero*/
+int altezza_albero(nodo* n){
+    if(n == NULL) return -1;
+    
+    int l = altezza_albero(n->sx);
+    int r = altezza_albero(n->dx);
+    
+    if(l>r) return l+1;
+    return r+1;
+}
+
+int counter(nodo* n, int h){
+    if(n == NULL) return 0;
+    int count = 0;
+    if(n->info == h)
+        count ++;
+    return count + counter(n->sx, h) + counter(n->dx, h);
+}
+
+int info_pari_altezza(albero T){
+    if(T == NULL) return 0;
+    int high = altezza_albero(T);
+    return counter(T, high);
+}
+
 /*=======================================*/
 /*MAIN*/
 
@@ -295,5 +320,14 @@ int main()
     printf("Risultato atteso: 2, Risultato funzione: %d\n", info_pari_distanza(n3));
     printf("Risultato atteso: 2, Risultato funzione: %d\n", info_pari_distanza(n4));
     printf("Risultato atteso: 3, Risultato funzione: %d\n", info_pari_distanza(n5));
+    printf("\n");
+    
+    //TEST CONTA QUANTI INFO PARI A ALTEZZA ALBERO
+    printf("INFO_PARI_ALTEZZA\n");
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", info_pari_altezza(n1));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", info_pari_altezza(n2));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", info_pari_altezza(n3));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", info_pari_altezza(n4));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", info_pari_altezza(n5));
     printf("\n");
 }
