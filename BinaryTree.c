@@ -229,6 +229,26 @@ int info_pari_altezza(albero T){
     return counter(T, high);
 }
 
+/*Funziona che torna l'altezza della foglia meno profonda*/
+int e_foglia(nodo_albero* n){
+    if(n == NULL) return 0;
+    if(n->sx == NULL && n->dx == NULL)
+        return 1;
+    else return 0;
+}
+
+int distanza_dalla_radice(nodo_albero* n, int h) {
+    if(n == NULL) return 0;
+    if(e_foglia(n))
+        return h;
+    return distanza_dalla_radice(n->dx, h+1) || distanza_dalla_radice(n->sx, h+1);
+}
+
+int foglia_meno_profonda(nodo_albero* n){
+    if(n == NULL) return 0;
+    return distanza_dalla_radice(n, 0);
+}
+
 /*=======================================*/
 /*MAIN*/
 
@@ -329,5 +349,14 @@ int main()
     printf("Risultato atteso: 1, Risultato funzione: %d\n", info_pari_altezza(n3));
     printf("Risultato atteso: 1, Risultato funzione: %d\n", info_pari_altezza(n4));
     printf("Risultato atteso: 0, Risultato funzione: %d\n", info_pari_altezza(n5));
+    printf("\n");
+    
+    //TEST FOGLIA MENO PROFONDA
+    printf("FOGLIA_MENO_PROFONDA\n");
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", foglia_meno_profonda(n1));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", foglia_meno_profonda(n2));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", foglia_meno_profonda(n3));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", foglia_meno_profonda(n4));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", foglia_meno_profonda(n5));
     printf("\n");
 }
