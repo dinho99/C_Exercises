@@ -97,6 +97,4 @@ int verifica(grafo* g) {
 
 
 
-int main() {
-    
-}
+int main() {}
