@@ -83,6 +83,38 @@ nodo* costruzione_albero_complesso(){
     return radice;
 }
 
+nodo* costruzione_albero_piu_complesso(){
+    nodo* radice = (nodo*) malloc(sizeof(nodo));
+    nodo* sinistro = (nodo*) malloc(sizeof(nodo));
+    nodo* destro = (nodo*) malloc(sizeof(nodo));
+    nodo* sinistrosinistro = (nodo*) malloc(sizeof(nodo));
+    nodo* sinistrodestro = (nodo*) malloc(sizeof(nodo));
+    nodo* sinistrodestrodestro = (nodo*) malloc(sizeof(nodo));
+    nodo* destrodestro = (nodo*) malloc(sizeof(nodo));
+    radice->sx = sinistro;
+    radice->dx = destro;
+    radice->info = 0;
+    sinistro->sx = sinistrosinistro;
+    sinistro->dx = sinistrodestro;
+    sinistro->info = 1;
+    destro->sx = NULL;
+    destro->dx = destrodestro;
+    destro->info = 1;
+    destrodestro->sx = NULL;
+    destrodestro->dx = NULL;
+    destrodestro->info = 2;
+    sinistrosinistro->sx = NULL;
+    sinistrosinistro->dx = NULL;
+    sinistrosinistro->info = 0;
+    sinistrodestro->sx = NULL;
+    sinistrodestro->dx = sinistrodestrodestro;
+    sinistrodestro->info = 1;
+    sinistrodestrodestro->sx = NULL;
+    sinistrodestrodestro->dx = NULL;
+    sinistrodestrodestro->info = 0;
+    return radice;
+}
+
 /*=======================================*/
 /*FUNZIONI*/
 /*=======================================*/
@@ -225,7 +257,8 @@ int counter(nodo* n, int h){
 
 int info_pari_altezza(albero T){
     if(T == NULL) return 0;
-    int high = altezza_albero(T);
+    int high = 0;
+    high = altezza_albero(T);
     return counter(T, high);
 }
 
@@ -249,9 +282,6 @@ int foglia_meno_profonda(albero t) {
     return left + 1;
 }
 
-/*=======================================*/
-/*MAIN*/
-
 int main()
 {
     //Costruzione alberi per i test
@@ -260,6 +290,7 @@ int main()
     nodo* n3 = costruzione_albero_figlio_foglia();
     nodo* n4 = costruzione_albero_figli_foglie();
     nodo* n5 = costruzione_albero_complesso();
+    nodo* n6 = costruzione_albero_piu_complesso();
     
     //TEST NODI = FOGLIE x2
     printf("NODI_FOGLIE_PER_DUE\n");
@@ -268,6 +299,7 @@ int main()
     printf("Risultato atteso: 1, Risultato funzione: %d\n", nodi_foglie_per_due(n3));
     printf("Risultato atteso: 0, Risultato funzione: %d\n", nodi_foglie_per_due(n4));
     printf("Risultato atteso: 1, Risultato funzione: %d\n", nodi_foglie_per_due(n5));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", nodi_foglie_per_due(n6));
     printf("\n");
 
     //TEST ESISTE FOGLIA DESTRA
@@ -277,6 +309,7 @@ int main()
     printf("Risultato atteso: 0, Risultato funzione: %d\n", foglia_destra(n3));
     printf("Risultato atteso: 1, Risultato funzione: %d\n", foglia_destra(n4));
     printf("Risultato atteso: 1, Risultato funzione: %d\n", foglia_destra(n5));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", foglia_destra(n6));
     printf("\n");
     
     //TEST ESISTE DUE FIGLI FOGLIA
@@ -286,6 +319,7 @@ int main()
     printf("Risultato atteso: 0, Risultato funzione: %d\n", due_figli_foglie(n3));
     printf("Risultato atteso: 1, Risultato funzione: %d\n", due_figli_foglie(n4));
     printf("Risultato atteso: 0, Risultato funzione: %d\n", due_figli_foglie(n5));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", due_figli_foglie(n6));
     printf("\n");
     
     //TEST CONTA INFO PARI A ZERO
@@ -295,6 +329,7 @@ int main()
     printf("Risultato atteso: 1, Risultato funzione: %d\n", conta_info_zero(n3));
     printf("Risultato atteso: 2, Risultato funzione: %d\n", conta_info_zero(n4));
     printf("Risultato atteso: 3, Risultato funzione: %d\n", conta_info_zero(n5));
+    printf("Risultato atteso: 3, Risultato funzione: %d\n", conta_info_zero(n6));
     printf("\n");
     
     //TEST CONTA FOGLIE INFO PARI A ZERO
@@ -304,6 +339,7 @@ int main()
     printf("Risultato atteso: 0, Risultato funzione: %d\n", conta_foglie_info_zero(n3));
     printf("Risultato atteso: 1, Risultato funzione: %d\n", conta_foglie_info_zero(n4));
     printf("Risultato atteso: 2, Risultato funzione: %d\n", conta_foglie_info_zero(n5));
+    printf("Risultato atteso: 2, Risultato funzione: %d\n", conta_foglie_info_zero(n6));
     printf("\n");
     
     //TEST NUMERO FOGLIE PARI ALL'ALTEZZA
@@ -313,6 +349,7 @@ int main()
     printf("Risultato atteso: 1, Risultato funzione: %d\n", altezza_come_foglie(n3));
     printf("Risultato atteso: 0, Risultato funzione: %d\n", altezza_come_foglie(n4));
     printf("Risultato atteso: 1, Risultato funzione: %d\n", altezza_come_foglie(n5));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", altezza_come_foglie(n6));
     printf("\n");
     
     //TEST CERCA VALORE
@@ -322,6 +359,7 @@ int main()
     printf("Risultato atteso: 1, Risultato funzione: %d\n", cerca_valore(n3, 1));
     printf("Risultato atteso: 1, Risultato funzione: %d\n", cerca_valore(n4, 1));
     printf("Risultato atteso: 1, Risultato funzione: %d\n", cerca_valore(n5, 1));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", cerca_valore(n6, 1));
     printf("\n");
     
     //TEST CONTA VALORE
@@ -331,6 +369,7 @@ int main()
     printf("Risultato atteso: 1, Risultato funzione: %d\n", conta_valore(n3, 1));
     printf("Risultato atteso: 1, Risultato funzione: %d\n", conta_valore(n4, 1));
     printf("Risultato atteso: 3, Risultato funzione: %d\n", conta_valore(n5, 1));
+    printf("Risultato atteso: 3, Risultato funzione: %d\n", conta_valore(n6, 1));
     printf("\n");
     
     //TEST CONTA QUANTI INFO PARI A DISTANZA DALLA RADICE
@@ -340,6 +379,7 @@ int main()
     printf("Risultato atteso: 2, Risultato funzione: %d\n", info_pari_distanza(n3));
     printf("Risultato atteso: 2, Risultato funzione: %d\n", info_pari_distanza(n4));
     printf("Risultato atteso: 3, Risultato funzione: %d\n", info_pari_distanza(n5));
+    printf("Risultato atteso: 4, Risultato funzione: %d\n", info_pari_distanza(n6));
     printf("\n");
     
     //TEST CONTA QUANTI INFO PARI A ALTEZZA ALBERO
@@ -349,6 +389,7 @@ int main()
     printf("Risultato atteso: 1, Risultato funzione: %d\n", info_pari_altezza(n3));
     printf("Risultato atteso: 1, Risultato funzione: %d\n", info_pari_altezza(n4));
     printf("Risultato atteso: 0, Risultato funzione: %d\n", info_pari_altezza(n5));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", info_pari_altezza(n6));
     printf("\n");
     
     //TEST FOGLIA MENO PROFONDA
@@ -358,5 +399,6 @@ int main()
     printf("Risultato atteso: 1, Risultato funzione: %d\n", foglia_meno_profonda(n3));
     printf("Risultato atteso: 1, Risultato funzione: %d\n", foglia_meno_profonda(n4));
     printf("Risultato atteso: 1, Risultato funzione: %d\n", foglia_meno_profonda(n5));
+    printf("Risultato atteso: 2, Risultato funzione: %d\n", foglia_meno_profonda(n6));
     printf("\n");
 }
