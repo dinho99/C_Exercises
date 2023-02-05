@@ -240,8 +240,8 @@ int foglia_meno_profonda(albero t) {
     return 0;
   }
 
-  int left = min_leaf_depth(t->sx);
-  int right = min_leaf_depth(t->dx);
+  int left = foglia_meno_profonda(t->sx);
+  int right = foglia_meno_profonda(t->dx);
 
   if (left > right) {
     return right + 1;
