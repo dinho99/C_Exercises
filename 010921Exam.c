@@ -43,23 +43,25 @@ typedef struct nodo_albero_struct {
 }nodo_albero;
 
 /*=================================================*/
-int e_foglia(nodo_albero* n){
-    if(n == NULL) return 0;
-    if(n->sx == NULL && n->dx == NULL)
-        return 1;
-    else return 0;
-}
 
-int distanza_dalla_radice(nodo_albero* n, int h) {
-    if(n == NULL) return 0;
-    if(e_foglia(n))
-        return h;
-    return distanza_dalla_radice(n->dx, h+1) || distanza_dalla_radice(n->sx, h+1);
-}
+/*Funziona che torna l'altezza della foglia meno profonda*/
+int foglia_meno_profonda(nodo_albero* t) {
 
-int foglia_meno_profonda(nodo_albero* n){
-    if(n == NULL) return 0;
-    return distanza_dalla_radice(n, 0);
+  if (t == NULL) {
+    return 0;
+  }
+
+  if ((t->sx == NULL) && (t->dx == NULL)) {
+    return 0;
+  }
+
+  int left = foglia_meno_profonda(t->sx);
+  int right = foglia_meno_profonda(t->dx);
+
+  if (left > right) {
+    return right + 1;
+  } else
+    return left + 1;
 }
 
 int dimensione_componente_minima(grafo* g) {
