@@ -80,43 +80,35 @@ nodo* nodo_opposto(nodo* n, arco* a) {
     return a->to;
 }
 
-/*prende come parametri l'albero, l'array con i valori e l'indice
- se l'albero è vuoto crea la radice, se non è vuoto scorre o sinistra
- o a destra fino a prima dell'elemento null e collega il nodo a quello*/
-void crea_e_collega_nodo(nodo_albero* n, int* dim, int i) {
-    if(n == NULL) { //albero senza nodi
-        nodo_albero* n = (nodo_albero*) malloc(sizeof(nodo_albero));
-        n->sx = NULL;
-        n->dx = NULL;
-        n->info = dim[i];
-    }
-    if(n->dx == NULL && n->sx == NULL) { //albero con solo radice
-        nodo_albero* right = (nodo_albero*) malloc(sizeof(nodo_albero));
-        n->dx = right;
-        right->dx = NULL;
-        right->sx = NULL;
-        right->info = dim[i];
-    }
-    else { //albero con almeno due nodi radice e figlio destro
-        while(n->sx != NULL) {
-            n = n->sx;
+nodo_albero* crea_abr(int* dim, int length) {
+    nodo_albero* n = NULL;
+    int i;
+    for(i = 0; i<length; i++) {
+        if(n == NULL) { //albero senza nodi
+            n = (nodo_albero*) malloc(sizeof(nodo_albero));
+            n->sx = NULL;
+            n->dx = NULL;
+            n->info = dim[i];
         }
-        nodo_albero* left = (nodo_albero*) malloc(sizeof(nodo_albero));
-        n->sx = left;
-        left->sx = NULL;
-        left->dx = NULL;
-        left->info = dim[i];
+        else if(n->dx == NULL && n->sx == NULL) { //albero con solo radice
+            nodo_albero* right = (nodo_albero*) malloc(sizeof(nodo_albero));
+            n->dx = right;
+            right->dx = NULL;
+            right->sx = NULL;
+            right->info = dim[i];
+        }
+        else { //albero con almeno due nodi radice e figlio destro
+            while(n->sx != NULL) {
+                n = n->sx;
+            }
+            nodo_albero* left = (nodo_albero*) malloc(sizeof(nodo_albero));
+            n->sx = left;
+            left->sx = NULL;
+            left->dx = NULL;
+            left->info = dim[i];
+        }
     }
-}
-
-/*funzione che scorre le dimensioni delle comp connesse, crea per ognuna un nodo e lo inserisce 
- nell'albero con valore info pari a dimensioni[i] */
-nodo_albero* crea_abr(int* dimensioni, int length) {
-    nodo_albero* abr = NULL;
-    for(int i = 0; i<length; i++) {
-        crea_e_collega_nodo(abr, dimensioni, i);
-    }
-    return abr;
+    return n;
 }
 
 nodo_albero* abr_da_grafo(grafo* g) {
@@ -144,10 +136,10 @@ nodo_albero* abr_da_grafo(grafo* g) {
         dimensioni_componenti[c-1] = dimensione_componente_connessa(g, c);
     }
     
-    nodo_albero* output = crea_abr(dimensioni_componenti, comp);
+    nodo_albero* output = (nodo_albero*) malloc(sizeof(nodo_albero));
+    output = crea_abr(dimensioni_componenti, comp);
     return output;
 }
 
 int main() {
-    
 }
