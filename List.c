@@ -193,6 +193,22 @@ int almeno_info_pari_lunghezza(plist l){
     return 0;
 }
 
+/*funzione che controlla se tutti gli elementi della lista hanno campo info pari alla lunghezza della lista*/
+int tutte_info_pari_lunghezza(plist p) {
+    if(p == NULL) return 0;
+    int l = lunghezza_lista(p);
+    int verificato = 1;
+    while(p != NULL && verificato) {
+        if(p->info == l) {
+            p = p->next;
+        }
+        else {
+            verificato = 0;
+        }
+    }
+    return verificato;
+}
+
 /*===================================================*/
 /*FUNZIONI PER TESTARE CORRETTA CREAZIONE DELLE LISTE*/
 /*===================================================*/
@@ -294,5 +310,15 @@ int main()
     printf("Risultato atteso: 1, Risultato funzione: %d\n", almeno_info_pari_lunghezza(l4));
     printf("Risultato atteso: 0, Risultato funzione: %d\n", almeno_info_pari_lunghezza(l5));
     printf("Risultato atteso: 1, Risultato funzione: %d\n", almeno_info_pari_lunghezza(l6));
+    printf("\n");
+	
+    /*TEST Tutte info pari lunghezza*/
+    printf("TEST TUTTE_INFO_PARI_LUNGHEZZA\n");
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", tutte_info_pari_lunghezza(l1));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", tutte_info_pari_lunghezza(l2));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", tutte_info_pari_lunghezza(l3));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", tutte_info_pari_lunghezza(l4));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", tutte_info_pari_lunghezza(l5));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", tutte_info_pari_lunghezza(l6));
     printf("\n");
 }
