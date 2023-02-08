@@ -282,6 +282,13 @@ int foglia_meno_profonda(albero t) {
     return left + 1;
 }
 
+/*Ritorna numero di nodi a una certa profondità*/
+int nodi_prof(nodo* n, int h) {
+    if(n == NULL) return 0;
+    if(h == 0) return 1;
+    return nodi_prof(n->dx, h-1) + nodi_prof(n->sx, h-1);
+}
+
 int main()
 {
     //Costruzione alberi per i test
@@ -400,5 +407,24 @@ int main()
     printf("Risultato atteso: 1, Risultato funzione: %d\n", foglia_meno_profonda(n4));
     printf("Risultato atteso: 1, Risultato funzione: %d\n", foglia_meno_profonda(n5));
     printf("Risultato atteso: 2, Risultato funzione: %d\n", foglia_meno_profonda(n6));
+    printf("\n");
+    
+    //TEST NODI A UNA CERTA PROFONDITA
+    printf("NODI_PROF\n");
+    printf("Profondità 1:\n");
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", nodi_prof(n1, 1));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", nodi_prof(n2, 1));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", nodi_prof(n3, 1));
+    printf("Risultato atteso: 2, Risultato funzione: %d\n", nodi_prof(n4, 1));
+    printf("Risultato atteso: 2, Risultato funzione: %d\n", nodi_prof(n5, 1));
+    printf("Risultato atteso: 2, Risultato funzione: %d\n", nodi_prof(n6, 1));
+    printf("\n");
+    printf("Profondità 2:\n");
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", nodi_prof(n1, 2));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", nodi_prof(n2, 2));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", nodi_prof(n3, 2));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", nodi_prof(n4, 2));
+    printf("Risultato atteso: 2, Risultato funzione: %d\n", nodi_prof(n5, 2));
+    printf("Risultato atteso: 3, Risultato funzione: %d\n", nodi_prof(n6, 2));
     printf("\n");
 }
