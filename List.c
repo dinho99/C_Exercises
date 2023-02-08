@@ -1,3 +1,4 @@
+
 /*PROVA PRELIMINARE ESERCIZI LISTE*/
 
 /*STRUTTURA LISTE*/
@@ -209,6 +210,18 @@ int tutte_info_pari_lunghezza(plist p) {
     return verificato;
 }
 
+/*funzione che conta quanti nodi hanno campo info minore del successivo*/
+int conta_minori(plist p) {
+    if(p == NULL || p -> next == NULL) return 0; //lista vuota o con solo un elemento
+    int out = 0;
+    while(p->next != NULL) {
+        if(p->info < p->next->info)
+            out ++;
+        p = p->next;
+    }
+    return out;
+}
+
 /*===================================================*/
 /*FUNZIONI PER TESTARE CORRETTA CREAZIONE DELLE LISTE*/
 /*===================================================*/
@@ -320,5 +333,15 @@ int main()
     printf("Risultato atteso: 0, Risultato funzione: %d\n", tutte_info_pari_lunghezza(l4));
     printf("Risultato atteso: 0, Risultato funzione: %d\n", tutte_info_pari_lunghezza(l5));
     printf("Risultato atteso: 0, Risultato funzione: %d\n", tutte_info_pari_lunghezza(l6));
+    printf("\n");
+    
+    /*TEST Campi info minori del successivo*/
+    printf("TEST TUTTE_INFO_PARI_LUNGHEZZA\n");
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", conta_minori(l1));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", conta_minori(l2));
+    printf("Risultato atteso: 2, Risultato funzione: %d\n", conta_minori(l3));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", conta_minori(l4));
+    printf("Risultato atteso: 3, Risultato funzione: %d\n", conta_minori(l5));
+    printf("Risultato atteso: 4, Risultato funzione: %d\n", conta_minori(l6));
     printf("\n");
 }
