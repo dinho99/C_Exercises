@@ -289,6 +289,29 @@ int nodi_prof(nodo* n, int h) {
     return nodi_prof(n->dx, h-1) + nodi_prof(n->sx, h-1);
 }
 
+/*funzione che verifica se esiste almeno un nodo con campo info uguale all'altezza dell'albero*/
+int altezza_albero_abr(nodo* n) {
+    if(n == NULL) return -1;
+    int l = altezza_albero_abr(n->sx);
+    int r = altezza_albero_abr(n->dx);
+    if(l>r) return l+1;
+    return r+1;
+}
+
+int almeno_info_altezza_ric(nodo* n, int h) {
+    int out = 0;
+    if(n == NULL) return out;
+    if(n->info == h)
+        out = 1;
+    return out || almeno_info_altezza_ric(n->dx, h) || almeno_info_altezza_ric(n->sx, h);
+}
+
+int almeno_info_altezza(albero T) {
+    if(T == NULL) return 0;
+    int h = altezza_albero_abr(T);
+    return almeno_info_altezza_ric(T, h);
+}
+
 int main()
 {
     //Costruzione alberi per i test
@@ -427,4 +450,13 @@ int main()
     printf("Risultato atteso: 2, Risultato funzione: %d\n", nodi_prof(n5, 2));
     printf("Risultato atteso: 3, Risultato funzione: %d\n", nodi_prof(n6, 2));
     printf("\n");
+    
+    //TEST ALMENO UNA INFO PARI A ALTEZZA ALBERO
+    printf("ALMENO_INFO_ALTEZZA\n");
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", almeno_info_altezza(n1));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", almeno_info_altezza(n2));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", almeno_info_altezza(n3));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", almeno_info_altezza(n4));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", almeno_info_altezza(n5));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", almeno_info_altezza(n6));
 }
