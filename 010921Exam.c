@@ -12,8 +12,8 @@ typedef struct arco_struct {
     elem_archi* pos; // pos. arco lista grafo
     nodo* from;
     nodo* to;
-    elem_archi* frompos; // pos. arco nodo
-    from elem_archi* topos; // pos. arco nodo to
+    elem_archi* frompos; // pos. arco nodo from
+    elem_archi* topos; // pos. arco nodo to
 }arco;
 
 typedef struct elem_lista_nodi {
