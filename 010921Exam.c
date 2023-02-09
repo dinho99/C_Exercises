@@ -91,7 +91,7 @@ int DFS_size(nodo* n) {
         if(altro_nodo == n) altro_nodo = la->info->from;
         if(altro_nodo->color == 0)
             count += DFS_size(altro_nodo);
-        le = le->next;
+        la = la->next;
     }
     return count;
 }
