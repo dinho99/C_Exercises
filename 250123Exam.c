@@ -80,35 +80,26 @@ nodo* nodo_opposto(nodo* n, arco* a) {
     return a->to;
 }
 
-nodo_albero* crea_abr(int* dim, int length) {
-    nodo_albero* n = NULL;
-    int i;
-    for(i = 0; i<length; i++) {
-        if(n == NULL) { //albero senza nodi
-            n = (nodo_albero*) malloc(sizeof(nodo_albero));
-            n->sx = NULL;
-            n->dx = NULL;
-            n->info = dim[i];
-        }
-        else if(n->dx == NULL && n->sx == NULL) { //albero con solo radice
-            nodo_albero* right = (nodo_albero*) malloc(sizeof(nodo_albero));
-            n->dx = right;
-            right->dx = NULL;
-            right->sx = NULL;
-            right->info = dim[i];
-        }
-        else { //albero con almeno due nodi radice e figlio destro
-            while(n->sx != NULL) {
-                n = n->sx;
-            }
-            nodo_albero* left = (nodo_albero*) malloc(sizeof(nodo_albero));
-            n->sx = left;
-            left->sx = NULL;
-            left->dx = NULL;
-            left->info = dim[i];
-        }
+void aggiungi_nodo(nodo_albero* abr, nodo_albero* nodo_nuovo) {
+    if(abr == NULL) { //albero output vuoto -> aggiungi radice
+        abr = nodo_nuovo;
+        return;
     }
-    return n;
+    if(nodo_nuovo->info < abr->info) {
+        if(abr -> sx != NULL) // se abr ha figlio sinistro
+            aggiungi_nodo(abr->sx, nodo_nuovo);
+        else // nessun figlio a sx
+            abr->sx = nodo_nuovo;
+            return;
+    }
+    if(nodo_nuovo->info >= abr->info) {
+        if(abr -> dx != NULL) // se abr ha figlio sinistro
+            aggiungi_nodo(abr->dx, nodo_nuovo);
+        else // nessun figlio a sx
+            abr->dx = nodo_nuovo;
+            return;
+    }
+    return;
 }
 
 nodo_albero* abr_da_grafo(grafo* g) {
@@ -131,13 +122,14 @@ nodo_albero* abr_da_grafo(grafo* g) {
     }
     
     int c; //colore componente connessa
-    int dimensioni_componenti[comp]; //array dove salvo numero nodi di ogni comp connessa
+    nodo_albero* output = (nodo_albero*) malloc(sizeof(nodo_albero));
     for(c = 1; c <= comp; c ++) {
-        dimensioni_componenti[c-1] = dimensione_componente_connessa(g, c);
+        int info = dimensione_componente_connessa(g, c);
+        nodo_albero* nuovo = (nodo_albero*) calloc(1, sizeof(nodo_albero));
+        nuovo->info = info;
+        aggiungi_nodo(output, nuovo);
     }
     
-    nodo_albero* output = (nodo_albero*) malloc(sizeof(nodo_albero));
-    output = crea_abr(dimensioni_componenti, comp);
     return output;
 }
 
