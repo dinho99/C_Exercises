@@ -312,6 +312,19 @@ int almeno_info_altezza(albero T) {
     return almeno_info_altezza_ric(T, h);
 }
 
+/*funzione che controlla se esiste una foglia con profondità pari a un intero passato per parametro*/
+int prof_foglia_ric(nodo* n, int h, int max) {
+    if(n == NULL) return 0;
+    if(n->dx == NULL && n->sx == NULL && h == max)
+        return 1;
+    return prof_foglia_ric(n->dx, h+1, max) ||  prof_foglia_ric(n->sx, h+1, max);
+}
+
+int prof_foglia_come_compmax(nodo* n, int max) {
+    if(n == NULL) return 0;
+    return prof_foglia_ric(n, 0, max);
+}
+
 int main()
 {
     //Costruzione alberi per i test
@@ -459,4 +472,43 @@ int main()
     printf("Risultato atteso: 1, Risultato funzione: %d\n", almeno_info_altezza(n4));
     printf("Risultato atteso: 0, Risultato funzione: %d\n", almeno_info_altezza(n5));
     printf("Risultato atteso: 0, Risultato funzione: %d\n", almeno_info_altezza(n6));
+    
+    //TEST ALMENO UNA PROF FOLGIA COME INTERO
+    printf("PROF_FOGLIA_COME_INT\n\n");
+    
+    printf("Profondità = 0 --->\n");
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", prof_foglia_come_compmax(n1, 0));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", prof_foglia_come_compmax(n2, 0));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", prof_foglia_come_compmax(n3, 0));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", prof_foglia_come_compmax(n4, 0));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", prof_foglia_come_compmax(n5, 0));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", prof_foglia_come_compmax(n6, 0));
+    printf("\n");
+    
+    printf("Profondità = 1 --->\n");
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", prof_foglia_come_compmax(n1, 1));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", prof_foglia_come_compmax(n2, 1));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", prof_foglia_come_compmax(n3, 1));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", prof_foglia_come_compmax(n4, 1));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", prof_foglia_come_compmax(n5, 1));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", prof_foglia_come_compmax(n6, 1));
+    printf("\n");
+    
+    printf("Profondità = 2 --->\n");
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", prof_foglia_come_compmax(n1, 2));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", prof_foglia_come_compmax(n2, 2));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", prof_foglia_come_compmax(n3, 2));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", prof_foglia_come_compmax(n4, 2));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", prof_foglia_come_compmax(n5, 2));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", prof_foglia_come_compmax(n6, 2));
+    printf("\n");
+    
+    printf("Profondità = 3 --->\n");
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", prof_foglia_come_compmax(n1, 3));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", prof_foglia_come_compmax(n2, 3));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", prof_foglia_come_compmax(n3, 3));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", prof_foglia_come_compmax(n4, 3));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", prof_foglia_come_compmax(n5, 3));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", prof_foglia_come_compmax(n6, 3));
+    printf("\n");
 }
