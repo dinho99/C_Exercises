@@ -81,9 +81,9 @@ int DFS_size(nodo* n) {
 
 int prof_foglia_ric(nodo_albero* n, int h, int max) {
     if(n == NULL) return 0;
-    if(n->dx == NULL && n->sx == NULL && h == comp_max)
+    if(n->dx == NULL && n->sx == NULL && h == max)
         return 1;
-    return prof_foglia_ric(n->dx, h+1) ||  prof_foglia_ric(n->dx, h+1);
+    return prof_foglia_ric(n->dx, h+1, max) ||  prof_foglia_ric(n->dx, h+1, max);
 }
 
 int prof_foglia_come_compmax(nodo_albero* n, int max) {
