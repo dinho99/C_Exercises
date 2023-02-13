@@ -44,94 +44,98 @@ typedef struct nodo_albero_struct {
     int info;
 } nodo_albero;
 
-/*Restituisce un puntatore alla radice di un albero binario di ricerca che 
-memorizza il numero dei nodi delle componenti connesse di g*/
-
-/*Restituisce numero di nodi colorati di un colore passato per parametro
- ovvero restituisce numero di nodi appartenenti a una componente connessa del grafo
- poiché i nodi connessi hanno lo stesso colore*/
-int dimensione_componente_connessa(grafo* g, int comp) {
-    int numero_nodi = 0;
-    elem_nodi* ln = g->nodi;
-    while(ln != NULL) {
-        if(ln->info->color == comp) {
-            numero_nodi += 1;
-        }
-        ln = ln->next;
-    }
-    return numero_nodi;
-}
-
-/*Colora tutti i nodi connessi a quello passato per parametro del colore passato per parametro*/
-void DFS_colora(nodo* n, int color) {
-    n->color = color;
-    elem_archi* la = n->archi;
-    while(la != NULL) {
-        nodo* altro_nodo = nodo_opposto(n, la->info);
-        if(altro_nodo == 0) {
-            DFS_colora(altro_nodo, color);
-        }
-        la = la->next;
-    }
-}
-
-nodo* nodo_opposto(nodo* n, arco* a) {
-    if(a->to == n) return a->from;
-    return a->to;
-}
-
-void aggiungi_nodo(nodo_albero* abr, nodo_albero* nodo_nuovo) {
-    if(abr == NULL) { //albero output vuoto -> aggiungi radice
-        abr = nodo_nuovo;
-        return;
-    }
-    if(nodo_nuovo->info < abr->info) {
-        if(abr -> sx != NULL) // se abr ha figlio sinistro
-            aggiungi_nodo(abr->sx, nodo_nuovo);
-        else // nessun figlio a sx
-            abr->sx = nodo_nuovo;
-            return;
-    }
-    if(nodo_nuovo->info >= abr->info) {
-        if(abr -> dx != NULL) // se abr ha figlio sinistro
-            aggiungi_nodo(abr->dx, nodo_nuovo);
-        else // nessun figlio a sx
-            abr->dx = nodo_nuovo;
-            return;
-    }
-    return;
-}
-
-nodo_albero* abr_da_grafo(grafo* g) {
-    if(g == NULL || g->numero_nodi == 0) return 0;
-    
+/*ritorna numero tot di comp connesse e colora ogni componente connessa di un colore
+ diverso partendo da 1 e arrivando al numero tot di comp*/
+int numero_comp_connesse(grafo* g) {
     elem_nodi* ln = g->nodi;
     while(ln != NULL) {
         ln->info->color = 0;
         ln = ln->next;
     }
     
+    int color = 0;
     ln = g->nodi;
-    int comp = 0; //numero delle componenti connesse
     while(ln != NULL) {
         if(ln->info->color == 0) {
-            comp ++; //se color = 0 incontro nodo appartenente a comp connessa non visitata quindi incremento n. comp
-            DFS_colora(ln->info, comp); //colora il nodo passato e tutti i nodi connessi con quello passato
+            color ++;
+            DFS_colora(ln->info, color);
         }
         ln = ln->next;
     }
+    return color;
+}
+
+void DFS_colora(nodo* n, int comp) {
+    n->color = comp;
+    elem_archi* la = n->archi;
+    while(la != NULL) {
+        nodo* altro_nodo = la->info->from;
+        if(altro_nodo == n)
+            altro_nodo = la->info->to;
+        if(altro_nodo->color == 0)
+            DFS_colora(altro_nodo, comp);
+        la = la->next;
+    }
+}
+
+int numero_singola_componente(grafo* g, int color) {
+    int count = 0;
+    elem_nodi* ln = g->nodi;
+    while(ln != NULL) {
+        if(ln->info->color == color) {
+            count ++;
+        }
+        ln = ln->next;
+    }
+    return count;
+}
+
+void aggiungi_nodo(nodo_albero* n, nodo_albero* nuovo) {
+    if(n == NULL) { //aggiungi radice
+        n = nuovo;
+        return;
+    }
+    if(nuovo->info < n->info) { //aggiungi a sx di n
+        if(n->sx != NULL)
+            aggiungi_nodo(n->sx, nuovo);
+        else
+            n->sx = nuovo;
+            return;
+    }
+    if(nuovo->info >= n->info) { //aggiungi a dx di n
+        if(n->dx != NULL)
+            aggiungi_nodo(n->dx, nuovo);
+        else
+            n->dx = nuovo;
+            return;
+    }
+    return;
+}
+
+/*La funzione restituisce un puntatore a un bst che memorizza le dimensioni delle componenti*/
+nodo_albero* abr_da_grafo(grafo* g) {
+    if(g == NULL || g->numero_nodi == 0) return 0;
     
-    int c; //colore componente connessa
-    nodo_albero* output = (nodo_albero*) malloc(sizeof(nodo_albero));
-    for(c = 1; c <= comp; c ++) {
-        int info = dimensione_componente_connessa(g, c);
-        nodo_albero* nuovo = (nodo_albero*) calloc(1, sizeof(nodo_albero));
+    nodo_albero* abr = (nodo_albero*) malloc(sizeof(nodo_albero));
+    abr = NULL;
+    
+    int componenti = numero_comp_connesse(g);
+    int dimensioni[componenti];
+    
+    for (int i = 0; i < componenti; i++) {
+        int info = numero_singola_componente(g, i+1);
+        
+        nodo_albero* nuovo = (nodo_albero*) malloc(sizeof(nodo_albero));
         nuovo->info = info;
-        aggiungi_nodo(output, nuovo);
+        nuovo->dx = NULL;
+        nuovo->sx = NULL;
+        
+        aggiungi_nodo(abr, nuovo);
     }
     
-    return output;
+    return abr;
 }
 
 int main() {
+    
 }
