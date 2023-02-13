@@ -325,6 +325,35 @@ int prof_foglia_come_compmax(nodo* n, int max) {
     return prof_foglia_ric(n, 0, max);
 }
 
+/*funzione che calcola se il numero di nodi interni è uguale al numero di foglie*/
+int is_foglia(nodo* n) {
+    if(n == NULL) return 0;
+    if(n->dx == NULL && n->sx == NULL)
+        return 1;
+    return 0;
+}
+
+int numero_di_foglie(nodo* n) {
+    if(n == NULL) return 0;
+    int count = 0;
+    if(is_foglia(n))
+        count ++;
+    return count + numero_di_foglie(n->dx) + numero_di_foglie(n->sx);
+}
+
+int numero_interni(nodo* n) {
+    if(n == NULL) return 0;
+    int count = 0;
+    if(!is_foglia(n)) //is interno (!foglia)
+        count ++;
+    return count + numero_interni(n->dx) + numero_interni(n->sx);
+}
+
+int interni_come_foglie(albero a) {
+    if(a == NULL) return 0;
+    return numero_di_foglie(a) == numero_interni(a);
+}
+
 int main()
 {
     //Costruzione alberi per i test
@@ -511,4 +540,15 @@ int main()
     printf("Risultato atteso: 1, Risultato funzione: %d\n", prof_foglia_come_compmax(n5, 3));
     printf("Risultato atteso: 1, Risultato funzione: %d\n", prof_foglia_come_compmax(n6, 3));
     printf("\n");
+    
+    //TEST FOGLIE = INTERNI
+    printf("INTERNI_COME_FOGLIE\n");
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", interni_come_foglie(n1));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", interni_come_foglie(n2));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", interni_come_foglie(n3));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", interni_come_foglie(n4));
+    printf("Risultato atteso: 1, Risultato funzione: %d\n", interni_come_foglie(n5));
+    printf("Risultato atteso: 0, Risultato funzione: %d\n", interni_come_foglie(n6));
+    printf("\n");
+    
 }
