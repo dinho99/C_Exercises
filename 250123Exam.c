@@ -121,8 +121,8 @@ nodo_albero* abr_da_grafo(grafo* g) {
     
     int componenti = numero_comp_connesse(g);
     
-    for (int i = 0; i < componenti; i++) {
-        int info = numero_singola_componente(g, i+1);
+    for (int i = 1; i <= componenti; i++) {
+        int info = numero_singola_componente(g, i);
         
         nodo_albero* nuovo = (nodo_albero*) malloc(sizeof(nodo_albero));
         nuovo->info = info;
