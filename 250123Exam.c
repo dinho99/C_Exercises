@@ -120,7 +120,6 @@ nodo_albero* abr_da_grafo(grafo* g) {
     abr = NULL;
     
     int componenti = numero_comp_connesse(g);
-    int dimensioni[componenti];
     
     for (int i = 0; i < componenti; i++) {
         int info = numero_singola_componente(g, i+1);
