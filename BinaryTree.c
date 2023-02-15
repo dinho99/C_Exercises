@@ -325,6 +325,14 @@ int prof_foglia_come_compmax(nodo* n, int max) {
     return prof_foglia_ric(n, 0, max);
 }
 
+/* ALTRO MODO:
+int prof_foglia_come_compmax(nodo* n, int prof) {
+    if(n == NULL) return 0;
+    if(prof == 0 && n->dx == NULL && n->sx == NULL) return 1;
+    return prof_foglia_come_compmax(n->dx, prof-1) || prof_foglia_come_compmax(n->sx, prof-1);
+}
+*/
+
 /*funzione che calcola se il numero di nodi interni è uguale al numero di foglie*/
 int is_foglia(nodo* n) {
     if(n == NULL) return 0;
